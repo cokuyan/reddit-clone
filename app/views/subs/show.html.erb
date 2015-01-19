@@ -1,0 +1,26 @@
+<h1><%= @sub.title %></h1>
+Moderator: <%= link_to @sub.moderator.username, user_url(@sub.moderator) %>
+
+<h2>Description</h2>
+<p><%= @sub.description %></p>
+
+<div>
+  <h2>Posts</h2>
+  <ul>
+    <% @sub.posts.each do |post| %>
+      <li>
+        <%= link_to post.title, post_url(post) %>
+        <p><%= post.content %></p>
+        <%= link_to post.author.username, user_url(post.author) %>
+      </li>
+    <% end %>
+  </ul>
+
+  <%= link_to "Add Post", new_post_url(sub_id: @sub.id) %>
+</div><br>
+
+<%= link_to "index", subs_url %>
+<% if @sub.current_is_moderator? %>
+  <%= link_to "edit", edit_sub_url(@sub) %>
+  <%= button_to "remove", sub_url(@sub), method: :delete %>
+<% end %>

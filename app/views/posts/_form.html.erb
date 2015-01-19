@@ -1,0 +1,35 @@
+<%= render 'layouts/errors' %>
+
+<form action="<%= post.form_url %>" method="POST">
+  <%= auth_token %>
+
+  <% if post.persisted? %>
+    <input type="hidden" name="_method" value="PATCH">
+  <% end %>
+
+  <label>
+    Title
+    <input type="text" name="post[title]" value="<%= post.title %>">
+  </label>
+
+  <label>
+    URL
+    <input type="text" name="post[url]" value="<%= post.url %>">
+  </label>
+
+  <label>
+    Content
+    <textarea name="post[content]"><%= post.content %></textarea>
+  </label>
+
+  <label>Subs</label>
+  <input type="hidden" name="sub_ids[]" value="">
+  <% Sub.all.each do |sub| %>
+    <label>
+      <input type="checkbox" name="sub_ids[]" value="<%= sub.id %>"<%= post.sub_checked(sub) %>>
+      <%= sub.title %>
+    </label>
+  <% end %>
+
+  <input type="submit" value="<%= post.submit_text %>">
+</form>

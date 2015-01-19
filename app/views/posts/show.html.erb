@@ -1,0 +1,28 @@
+<h1>Post: <%= @post.title %></h1>
+
+<div>
+  <% unless @post.url.blank? %>
+    <h3>URL</h3>
+    <p><%= @post.url %></p>
+  <% end %>
+</div>
+
+<div>
+  <p><%= @post.content if @post.content %></p>
+<div>
+  <h3>Comments</h3>
+  <ul>
+    <% @post.comments_by_parent_id[nil].each do |comment| %>
+      <li>
+        <%= render 'comment', comment: comment, comments_by_parent_id: @post.comments_by_parent_id %>
+      </li>
+    <% end %>
+  </ul>
+  <br>
+  <%= link_to "Add Comment", new_post_comment_url(@post) %>
+</div>
+
+<h3>Subs</h3>
+<% @post.subs.each do |sub| %>
+  <%= link_to sub.title, sub_url(sub) %>
+<% end %>

@@ -1,0 +1,12 @@
+<%= comment.content %><br>
+<%= link_to comment.author.username, user_url(comment.author) %>
+<%= link_to "Add subcomment", new_post_comment_url(comment.post, parent_comment_id: comment.id) %>
+
+<% unless comments_by_parent_id[comment.id].nil? %>
+  <h4>Sub Comments</h4>
+  <ul>
+    <% comments_by_parent_id[comment.id].each do |child_comment| %>
+      <li><%= render 'comment', comment: child_comment, comments_by_parent_id: comments_by_parent_id %></li>
+    <% end %>
+  </ul>
+<% end %>
